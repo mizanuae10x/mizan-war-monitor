@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚖️ ميزان — مراقبة الأزمة الإيرانية-الخليجية</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --dark: #0d0d0d;
+    --card: #161616;
+    --border: #2a2a2a;
+    --red: #e74c3c;
+    --red-dim: rgba(231,76,60,0.15);
+    --gold: #f39c12;
+    --gold-dim: rgba(243,156,18,0.12);
+    --green: #27ae60;
+    --green-dim: rgba(39,174,96,0.12);
+    --blue: #3498db;
+    --blue-dim: rgba(52,152,219,0.12);
+    --text: #e8e8e8;
+    --text-muted: #888;
+    --navy: #0B1F3A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: #0a0a0a;
+    border-bottom: 2px solid var(--red);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* Mizan brand strip */
+  .mizan-strip {
+    background: linear-gradient(135deg, #0B1F3A 0%, #0d2545 100%);
+    border-bottom: 1px solid rgba(184,136,42,0.3);
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ms-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ms-logo {
+    font-size: 16px;
+    font-weight: 900;
+    color: #B8882A;
+    letter-spacing: 0.5px;
+  }
+  .ms-sep {
+    width: 1px; height: 16px;
+    background: rgba(184,136,42,0.3);
+  }
+  .ms-tagline {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+  }
+  .ms-powered {
+    font-size: 9px;
+    color: rgba(184,136,42,0.6);
+    direction: ltr;
+  }
+
+  .topbar-inner {
+    background: #0a0a0a;
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tb-left { display: flex; align-items: center; gap: 12px; }
+  .tb-logo { font-size: 16px; font-weight: 900; color: var(--red); }
+  .tb-badge {
+    background: var(--red);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  .tb-clock { font-size: 13px; color: var(--text-muted); direction: ltr; font-variant-numeric: tabular-nums; }
+  .tb-refresh { background: var(--border); border: none; color: var(--text-muted); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 12px; }
+  .tb-refresh:hover { background: var(--red); color: #fff; }
+
+  /* Visitors badge */
+  .visitors-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(39,174,96,0.12);
+    border: 1px solid rgba(39,174,96,0.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: var(--green);
+    direction: ltr;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .visitors-badge:hover { background: rgba(39,174,96,0.2); }
+  .visitors-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse-green 1.5s infinite;
+  }
+  @keyframes pulse-green {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(1.4); }
+  }
+  .visitors-count { font-weight: 800; font-size: 13px; }
+
+  /* Live refresh bar */
+  .refresh-bar-wrap {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 9999;
+    background: rgba(231,76,60,0.1);
+  }
+  .refresh-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), #f39c12);
+    width: 100%;
+    transform-origin: left;
+    transition: transform 0.5s linear;
+  }
+  /* Last-updated pill */
+  .last-updated-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 10px;
+    color: var(--text-muted);
+    direction: ltr;
+  }
+  .lu-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+  /* Flash on data refresh */
+  @keyframes data-flash {
+    0% { background: rgba(231,76,60,0.08); }
+    100% { background: transparent; }
+  }
+  .data-flash { animation: data-flash 0.6s ease-out; }
+
+
+  /* MAIN */
+  .main { padding: 16px 20px; max-width: 1400px; margin: 0 auto; }
+
+  /* INDICATORS ROW */
+  .indicators {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .indicator {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .indicator::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .indicator.red::before { background: var(--red); }
+  .indicator.gold::before { background: var(--gold); }
+  .indicator.green::before { background: var(--green); }
+  .indicator.blue::before { background: var(--blue); }
+
+  .ind-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; }
+  .ind-value { font-size: 20px; font-weight: 900; }
+  .ind-value.red { color: var(--red); }
+  .ind-value.gold { color: var(--gold); }
+  .ind-value.green { color: var(--green); }
+  .ind-value.blue { color: var(--blue); }
+  .ind-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .ind-change { font-size: 11px; margin-top: 4px; }
+  .ind-change.up { color: #e74c3c; }
+  .ind-change.down { color: #27ae60; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .card-title { font-size: 12px; font-weight: 700; color: var(--text); }
+  .card-count { font-size: 10px; color: var(--text-muted); background: var(--border); padding: 2px 8px; border-radius: 10px; }
+  .card-body { padding: 12px 14px; }
+
+  /* TIMELINE */
+  .timeline { position: relative; }
+
+  .tl-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .tl-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tl-dot.strike      { background: rgba(231,76,60,0.2);   border: 1.5px solid var(--red);   color: var(--red); }
+  .tl-dot.airstrike   { background: rgba(231,76,60,0.2);   border: 1.5px solid var(--red);   color: var(--red); }
+  .tl-dot.retaliation { background: rgba(231,76,60,0.3);   border: 1.5px solid #c0392b;      color: #c0392b; }
+  .tl-dot.missile     { background: rgba(192,57,43,0.2);   border: 1.5px solid #c0392b;      color: #c0392b; }
+  .tl-dot.missile_attack { background: rgba(192,57,43,0.2); border: 1.5px solid #c0392b;     color: #c0392b; }
+  .tl-dot.missile_drone_attack { background: rgba(192,57,43,0.2); border:1.5px solid #c0392b;color:#c0392b; }
+  .tl-dot.missile_strike { background: rgba(192,57,43,0.2); border:1.5px solid #c0392b;      color:#c0392b; }
+  .tl-dot.drone_attack{ background: rgba(192,57,43,0.15);  border: 1.5px solid #e67e22;      color: #e67e22; }
+  .tl-dot.drone       { background: rgba(192,57,43,0.15);  border: 1.5px solid #e67e22;      color: #e67e22; }
+  .tl-dot.attack      { background: rgba(231,76,60,0.15);  border: 1.5px solid var(--red);   color: var(--red); }
+  .tl-dot.explosion   { background: rgba(243,156,18,0.25); border: 1.5px solid #e67e22;      color: #e67e22; }
+  .tl-dot.diplomatic  { background: rgba(52,152,219,0.2);  border: 1.5px solid var(--blue);  color: var(--blue); }
+  .tl-dot.political   { background: rgba(52,152,219,0.15); border: 1.5px solid var(--blue);  color: var(--blue); }
+  .tl-dot.assessment  { background: rgba(52,152,219,0.1);  border: 1.5px solid #5dade2;      color: #5dade2; }
+  .tl-dot.interception{ background: rgba(39,174,96,0.2);   border: 1.5px solid var(--green); color: var(--green); }
+  .tl-dot.alert       { background: rgba(231,76,60,0.15);  border: 1.5px solid #e74c3c;      color: #e74c3c; }
+  .tl-dot.uncertainty { background: rgba(243,156,18,0.2);  border: 1.5px solid var(--gold);  color: var(--gold); }
+  .tl-dot.threat      { background: rgba(231,76,60,0.15);  border: 1.5px solid #e74c3c;      color: #e74c3c; }
+  .tl-dot.military    { background: rgba(142,68,173,0.15); border: 1.5px solid #9b59b6;      color: #9b59b6; }
+  .tl-dot.military_action { background:rgba(142,68,173,0.15); border:1.5px solid #9b59b6;   color:#9b59b6; }
+  .tl-dot.assassination { background: rgba(142,68,173,0.2); border: 1.5px solid #8e44ad;    color: #8e44ad; }
+  .tl-dot.leadership  { background: rgba(142,68,173,0.2);  border: 1.5px solid #8e44ad;     color: #8e44ad; }
+  .tl-dot.maritime    { background: rgba(52,152,219,0.15); border: 1.5px solid #2980b9;      color: #2980b9; }
+  .tl-dot.naval       { background: rgba(52,152,219,0.15); border: 1.5px solid #2980b9;      color: #2980b9; }
+  .tl-dot.blockade    { background: rgba(52,152,219,0.2);  border: 1.5px solid #1a6fa0;      color: #1a6fa0; }
+  .tl-dot.evacuation  { background: rgba(243,156,18,0.15); border: 1.5px solid var(--gold);  color: var(--gold); }
+  .tl-dot.civilian_impact { background: rgba(231,76,60,0.1); border:1.5px solid #e67e22;    color:#e67e22; }
+  .tl-dot.civilian_casualty{ background:rgba(231,76,60,0.1); border:1.5px solid #e67e22;    color:#e67e22; }
+  .tl-dot.casualty    { background: rgba(231,76,60,0.1);   border: 1.5px solid #e67e22;      color: #e67e22; }
+  .tl-dot.civilian    { background: rgba(231,76,60,0.1);   border: 1.5px solid #e67e22;      color: #e67e22; }
+  .tl-dot.aviation    { background: rgba(52,152,219,0.1);  border: 1.5px solid #5dade2;      color: #5dade2; }
+  .tl-dot.economic    { background: rgba(243,156,18,0.1);  border: 1.5px solid var(--gold);  color: var(--gold); }
+  .tl-dot.impact      { background: rgba(231,76,60,0.1);   border: 1.5px solid #e74c3c;      color: #e74c3c; }
+  .tl-dot.other       { background: rgba(136,136,136,0.15);border: 1.5px solid #888;         color: #888; }
+
+  /* Date divider in timeline */
+  .tl-date-divider {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding: 6px 0;
+    margin: 4px 0;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+
+  /* Escalation gauge */
+  .escalation-gauge {
+    position: relative;
+    height: 6px;
+    background: linear-gradient(to left, #e74c3c, #f39c12, #27ae60);
+    border-radius: 3px;
+    margin: 6px 0 2px;
+    overflow: visible;
+  }
+  .escalation-needle {
+    position: absolute;
+    top: -4px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--red);
+    transform: translateX(50%);
+    transition: right 0.8s ease;
+    box-shadow: 0 0 6px rgba(231,76,60,0.5);
+  }
+
+  /* Casualties source note */
+  .cas-source { font-size: 9px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+  .cas-updated { font-size: 9px; color: rgba(39,174,96,0.7); }
+
+  .tl-body { flex: 1; }
+  .tl-time { font-size: 10px; color: var(--text-muted); direction: ltr; margin-bottom: 2px; }
+  .tl-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .tl-desc { font-size: 11px; color: #aaa; line-height: 1.7; }
+  .tl-casualties { font-size: 10px; color: var(--red); margin-top: 3px; }
+  .tl-verified { font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; }
+  .tl-verified.yes { background: rgba(39,174,96,0.15); color: var(--green); }
+  .tl-verified.no { background: rgba(243,156,18,0.15); color: var(--gold); }
+
+  /* STATUS TABLE */
+  .status-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .status-table tr { border-bottom: 1px solid var(--border); }
+  .status-table tr:last-child { border-bottom: none; }
+  .status-table td { padding: 8px 6px; }
+  .status-table td:first-child { color: var(--text); font-weight: 600; }
+  .status-table td:last-child { text-align: left; direction: ltr; }
+
+  .status-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .s-closed { background: rgba(231,76,60,0.2); color: var(--red); }
+  .s-restricted { background: rgba(243,156,18,0.2); color: var(--gold); }
+  .s-open { background: rgba(39,174,96,0.2); color: var(--green); }
+  .s-threatened { background: rgba(231,76,60,0.15); color: #e67e22; }
+
+  /* OIL CHART */
+  .oil-chart { display: flex; align-items: flex-end; gap: 8px; height: 80px; padding: 8px 0; }
+  .oil-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .oil-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(to top, var(--red), #c0392b); transition: height 0.5s; }
+  .oil-label { font-size: 9px; color: var(--text-muted); }
+  .oil-val { font-size: 10px; font-weight: 700; color: var(--red); }
+
+  /* STATEMENTS */
+  .stmt-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-right: 3px solid var(--blue);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 7px;
+  }
+  .stmt-item.iran { border-right-color: var(--red); }
+  .stmt-item.gcc { border-right-color: var(--gold); }
+  .stmt-item.houthi { border-right-color: #8e44ad; }
+  .stmt-item.intl { border-right-color: #95a5a6; }
+
+  .stmt-actor { font-size: 10px; font-weight: 700; color: var(--text); }
+  .stmt-time { font-size: 9px; color: var(--text-muted); direction: ltr; white-space: nowrap; }
+  .stmt-header { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .stmt-text { font-size: 11px; color: #aaa; line-height: 1.6; margin-top: 4px; }
+
+  /* SOURCES */
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .src-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 9px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s;
+  }
+  .src-item:hover { border-color: var(--red); }
+  .src-name { font-size: 11px; font-weight: 600; color: var(--text); }
+  .src-type { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+  .src-priority { font-size: 9px; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-top: 2px; }
+  .sp-1 { background: rgba(231,76,60,0.15); color: var(--red); }
+  .sp-2 { background: rgba(243,156,18,0.1); color: var(--gold); }
+
+  /* SCENARIOS */
+  .scenario {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 11px;
+    margin-bottom: 7px;
+  }
+  .sc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .sc-title { font-size: 12px; font-weight: 700; color: var(--text); }
+  .sc-prob { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .sc-high { background: rgba(231,76,60,0.2); color: var(--red); }
+  .sc-med { background: rgba(243,156,18,0.2); color: var(--gold); }
+  .sc-low { background: rgba(39,174,96,0.2); color: var(--green); }
+  .sc-desc { font-size: 11px; color: #999; line-height: 1.6; }
+
+  /* SEARCH */
+  .search-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .search-box:focus { border-color: var(--red); }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .ftab {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+  .ftab.active, .ftab:hover { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+
+  /* MONITORS */
+  .monitor-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .monitor-item:last-child { border-bottom: none; }
+  .mi-name { color: var(--text); }
+  .mi-info { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+  .mi-status { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+  .mi-active { background: rgba(39,174,96,0.15); color: var(--green); }
+  .mi-warning { background: rgba(243,156,18,0.15); color: var(--gold); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+  .last-update { font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 16px; padding-bottom: 20px; }
+
+  /* ======= MOBILE / iPHONE ======= */
+  @media (max-width: 768px) {
+    .mizan-strip { padding: 4px 12px; }
+    .ms-logo { font-size: 13px; }
+    .ms-tagline { font-size: 9px; }
+    .ms-powered { font-size: 8px; }
+    .topbar-inner { padding: 7px 12px; }
+    .tb-logo { font-size: 13px; }
+    .tb-badge { font-size: 8px; }
+    .tb-clock { font-size: 11px; }
+    .tb-refresh { padding: 4px 8px; font-size: 11px; }
+
+    .main { padding: 10px 12px; }
+
+    .indicators {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 8px;
+    }
+    .ind-value { font-size: 18px; }
+    .ind-label { font-size: 9px; }
+    .cas-source { display: none; } /* hide source on mobile to save space */
+
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+
+    .card-header { padding: 8px 12px; flex-wrap: wrap; gap: 4px; }
+    .card-body { padding: 10px 12px; }
+
+    .filter-tabs { gap: 4px; }
+    .ftab { font-size: 9px; padding: 3px 8px; }
+
+    .tl-item { gap: 8px; margin-bottom: 12px; }
+    .tl-dot { width: 24px; height: 24px; font-size: 10px; }
+    .tl-title { font-size: 12px; }
+    .tl-desc { font-size: 11px; }
+
+    .status-table td { padding: 7px 4px; font-size: 12px; }
+    .status-pill { font-size: 10px; padding: 2px 7px; }
+
+    .oil-chart { height: 70px; gap: 5px; }
+    .oil-val { font-size: 9px; }
+    .oil-label { font-size: 8px; }
+
+    .stmt-item { padding: 7px 9px; }
+    .stmt-actor { font-size: 11px; }
+    .stmt-text { font-size: 10px; }
+
+    .scenario { padding: 8px 10px; }
+    .sc-title { font-size: 11px; }
+    .sc-desc { font-size: 10px; }
+
+    .sources-grid { grid-template-columns: 1fr; }
+    .src-name { font-size: 12px; }
+
+    .monitor-item { flex-wrap: wrap; gap: 4px; }
+    .mi-name { font-size: 11px; }
+    .mi-info { font-size: 9px; }
+  }
+
+  @media (max-width: 390px) {
+    .indicators { grid-template-columns: repeat(2, 1fr) !important; }
+    .ind-value { font-size: 15px; }
+    .tb-logo { font-size: 12px; }
+    .filter-tabs { gap: 3px; }
+    .ftab { font-size: 8px; padding: 2px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<!-- Live refresh progress bar -->
+<div class="refresh-bar-wrap"><div class="refresh-bar" id="refresh-bar"></div></div>
+
+<div class="topbar">
+  <!-- Mizan Brand Strip -->
+  <div class="mizan-strip">
+    <div class="ms-brand">
+      <span class="ms-logo">⚖️ ميزان</span>
+      <div class="ms-sep"></div>
+      <span class="ms-tagline">نظام الاستخبارات التنفيذية</span>
+    </div>
+    <span class="ms-powered">Powered by Mizan Intelligence · war.tamkeenai.ae</span>
+  </div>
+  <!-- Page Header -->
+  <div class="topbar-inner">
+    <div class="tb-left">
+      <span class="tb-logo">⚔️ مراقبة الأزمة الإيرانية-الخليجية</span>
+      <span class="tb-badge">🔴 LIVE</span>
+    </div>
+    <div class="tb-left">
+      <span class="tb-clock" id="clock">--:--:--</span>
+      <div class="last-updated-pill"><div class="lu-dot"></div><span id="last-updated-ago">جارٍ التحميل...</span></div>
+      <div class="visitors-badge" title="المتصفحون الآن" onclick="showVisitorStats()">
+        <div class="visitors-dot"></div>
+        <span class="visitors-count" id="live-count">—</span>
+        <span>مباشر</span>
+      </div>
+      <button class="tb-refresh" onclick="loadDataLive()">🔄 تحديث</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- INDICATORS -->
+  <div class="indicators" style="grid-template-columns: repeat(6,1fr);">
+    <div class="indicator red">
+      <div class="ind-label">☠️ ضحايا إيران</div>
+      <div class="ind-value red" id="ind-killed">—</div>
+      <div class="ind-sub" id="ind-injured">— جريح</div>
+      <div class="cas-source" id="ind-iran-source">—</div>
+    </div>
+    <div class="indicator red">
+      <div class="ind-label">☠️ ضحايا الخليج</div>
+      <div class="ind-value red" id="ind-gulf-killed">—</div>
+      <div class="ind-sub" id="ind-gulf-sub">— جريح</div>
+      <div class="cas-source" id="ind-gulf-source">—</div>
+    </div>
+    <div class="indicator red">
+      <div class="ind-label">☠️ ضحايا إسرائيل</div>
+      <div class="ind-value red" id="ind-israel-killed">—</div>
+      <div class="ind-sub" id="ind-israel-sub">— جريح</div>
+      <div class="cas-source" id="ind-israel-source">—</div>
+    </div>
+    <div class="indicator gold">
+      <div class="ind-label">🛢️ برنت</div>
+      <div class="ind-value gold" id="ind-oil">—</div>
+      <div class="ind-change up" id="ind-oil-change">جارٍ التحميل...</div>
+    </div>
+    <div class="indicator red">
+      <div class="ind-label">🚢 مضيق هرمز</div>
+      <div class="ind-value" style="font-size:14px;color:#e67e22;" id="ind-hormuz">—</div>
+      <div class="ind-sub" id="ind-hormuz-sub">جارٍ التحميل...</div>
+    </div>
+    <div class="indicator red">
+      <div class="ind-label">📡 أحداث موثّقة</div>
+      <div class="ind-value red" id="ind-events">—</div>
+      <div class="ind-sub" id="ind-events-sub">جارٍ التحميل...</div>
+      <!-- Escalation gauge -->
+      <div style="margin-top:6px;">
+        <div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">مستوى التصعيد</div>
+        <div class="escalation-gauge">
+          <div class="escalation-needle" id="escalation-needle" style="right:10%;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:7px;color:var(--text-muted);margin-top:6px;">
+          <span>منخفض</span><span id="escalation-label">—</span><span>نووي</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUNTRIES STATS SECTION -->
+  <div id="countries-stats-section" style="margin-bottom:14px;">
+    <!-- TOP KPIs -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px;">
+      <div style="background:#161616;border:1px solid #2a2a2a;border-top:3px solid #e74c3c;border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#888;margin-bottom:4px;">🌍 دول مستهدفة</div>
+        <div style="font-size:32px;font-weight:900;color:#e74c3c;line-height:1;" id="kpi-countries">9</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">إيران + 8 دول</div>
+      </div>
+      <div style="background:#161616;border:1px solid #2a2a2a;border-top:3px solid #f39c12;border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#888;margin-bottom:4px;">🚀 إجمالي الضربات</div>
+        <div style="font-size:32px;font-weight:900;color:#f39c12;line-height:1;" id="kpi-strikes">1,800+</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">صواريخ + مسيّرات</div>
+      </div>
+      <div style="background:#161616;border:1px solid #2a2a2a;border-top:3px solid #e74c3c;border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#888;margin-bottom:4px;">☠️ إجمالي الضحايا</div>
+        <div style="font-size:32px;font-weight:900;color:#e74c3c;line-height:1;" id="kpi-casualties">520+</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">قتيل في المنطقة</div>
+      </div>
+      <div style="background:#161616;border:1px solid #2a2a2a;border-top:3px solid #e67e22;border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#888;margin-bottom:4px;">✈️ مجالات مغلقة</div>
+        <div style="font-size:32px;font-weight:900;color:#e67e22;line-height:1;" id="kpi-airspace">6</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">من أصل 9 دول</div>
+      </div>
+      <div style="background:#161616;border:1px solid #2a2a2a;border-top:3px solid #3498db;border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#888;margin-bottom:4px;">⚓ أسطول أمريكي</div>
+        <div style="font-size:32px;font-weight:900;color:#3498db;line-height:1;">18+</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">وحدة بحرية</div>
+      </div>
+    </div>
+
+    <!-- COUNTRIES TABLE -->
+    <div style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;">
+      <div style="background:#0d0d0d;padding:12px 16px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:13px;font-weight:700;color:#e8e8e8;">🌍 إحصاءات الدول المستهدفة</span>
+        <span style="font-size:10px;color:#888;background:#1a1a1a;padding:3px 10px;border-radius:10px;">آخر تحديث: <span id="countries-last-update">—</span></span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead>
+            <tr style="background:#111;border-bottom:2px solid #2a2a2a;">
+              <th style="padding:10px 14px;text-align:right;font-weight:700;color:#888;font-size:11px;">الدولة</th>
+              <th style="padding:10px 14px;text-align:center;font-weight:700;color:#888;font-size:11px;">الضربات</th>
+              <th style="padding:10px 14px;text-align:center;font-weight:700;color:#888;font-size:11px;">القتلى</th>
+              <th style="padding:10px 14px;text-align:center;font-weight:700;color:#888;font-size:11px;">المصابون</th>
+              <th style="padding:10px 14px;text-align:center;font-weight:700;color:#888;font-size:11px;">المجال الجوي</th>
+              <th style="padding:10px 14px;text-align:right;font-weight:700;color:#888;font-size:11px;">أبرز الأهداف</th>
+            </tr>
+          </thead>
+          <tbody id="countries-table-body">
+            <!-- Injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID: TIMELINE + STATUS -->
+  <div class="grid-2">
+    <!-- TIMELINE -->
+    <div class="card">
+      <div class="card-header" style="flex-direction:column;align-items:stretch;gap:6px;padding-bottom:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="card-title">📡 الجدول الزمني للأحداث</span>
+          <span class="card-count" id="events-count">— حدث</span>
+        </div>
+        <input class="search-box" id="timeline-search" placeholder="🔍 ابحث في الأحداث... (الفاعل، الهدف، الوصف)" oninput="onSearchTimeline()" style="margin-bottom:0;font-size:12px;padding:6px 10px;">
+        <div class="filter-tabs" style="margin:0;">
+          <button class="ftab active" onclick="filterEvents('all',this)">الكل</button>
+          <button class="ftab" onclick="filterEvents('missile',this)">🚀 صواريخ</button>
+          <button class="ftab" onclick="filterEvents('airstrike',this)">💥 غارات</button>
+          <button class="ftab" onclick="filterEvents('interception',this)">✅ اعتراض</button>
+          <button class="ftab" onclick="filterEvents('diplomatic',this)">🏛️ دبلوماسي</button>
+          <button class="ftab" onclick="filterEvents('threat',this)">⚠️ تهديد</button>
+          <button class="ftab" onclick="filterEvents('explosion',this)">💢 انفجار</button>
+          <button class="ftab" onclick="filterEvents('assassination',this)">☠️ اغتيال</button>
+          <button class="ftab" onclick="filterEvents('maritime',this)">🌊 بحري</button>
+          <button class="ftab" onclick="filterEvents('civilian_impact',this)">👥 مدنيون</button>
+        </div>
+      </div>
+      <div class="card-body" style="max-height:520px;overflow-y:auto;padding-top:4px;" id="timeline-container">
+        <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;">جارٍ التحميل...</div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <!-- AIRSPACE -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-header">
+          <span class="card-title">✈️ حالة المجالات الجوية</span>
+        </div>
+        <div class="card-body" style="padding:8px 12px;">
+          <table class="status-table" id="airspace-table">
+            <tr><td colspan="3" style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px;">جارٍ التحميل...</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- OIL -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🛢️ سعر النفط (برنت)</span>
+          <span id="oil-header-change" style="font-size:11px;color:var(--text-muted);">—</span>
+        </div>
+        <div class="card-body">
+          <div class="oil-chart" id="oil-chart">
+            <div style="color:var(--text-muted);font-size:11px;text-align:center;width:100%;padding:20px 0;">جارٍ التحميل...</div>
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:4px;">
+            ⚠️ إغلاق هرمز = $150+ متوقع
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID: STATEMENTS + SCENARIOS + MONITORS -->
+  <div class="grid-3">
+    <!-- STATEMENTS -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📣 البيانات الرسمية</span>
+        <span class="card-count" id="statements-count">— بيان</span>
+      </div>
+      <div class="card-body" style="max-height:320px;overflow-y:auto;" id="statements-container">
+        <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;">جارٍ التحميل...</div>
+      </div>
+    </div>
+
+    <!-- SCENARIOS -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🔮 السيناريوهات المحتملة</span>
+      </div>
+      <div class="card-body" id="scenarios-container">
+        <div style="color:var(--text-muted);font-size:11px;text-align:center;padding:16px;">جارٍ التحميل...</div>
+      </div>
+    </div>
+
+    <!-- MONITORS + SOURCES -->
+    <div>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-header">
+          <span class="card-title">🤖 المراقبة الآلية</span>
+        </div>
+        <div class="card-body" style="padding:8px 14px;">
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">⚙️ iran-gulf-crisis-monitor</div>
+              <div class="mi-info">كل 10 دقائق — بحث + تحديث DB + Telegram 🚨</div>
+            </div>
+            <span class="mi-status mi-active">نشط ✅</span>
+          </div>
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">🩸 war-casualties-update</div>
+              <div class="mi-info">كل 30 دقيقة — Tavily بحث الضحايا + DB + Azure</div>
+            </div>
+            <span class="mi-status mi-active">نشط ✅</span>
+          </div>
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">🛢️ oil-price-alert</div>
+              <div class="mi-info">كل 15 دقيقة — تنبيه عند $120/$150 + DB</div>
+            </div>
+            <span class="mi-status mi-active">نشط ✅</span>
+          </div>
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">📊 war-daily-brief</div>
+              <div class="mi-info">7:00 صباحاً — تقرير يومي + Telegram</div>
+            </div>
+            <span class="mi-status mi-warning">مراجعة ⚠️</span>
+          </div>
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">👁 visitor-tracker</div>
+              <div class="mi-info">كل زائر جديد — موقعه + جهازه → Telegram</div>
+            </div>
+            <span class="mi-status mi-active">نشط ✅</span>
+          </div>
+          <div class="monitor-item">
+            <div>
+              <div class="mi-name">🔄 live-db-proxy</div>
+              <div class="mi-info">كل 15 ثانية — /api/db → Azure Blob</div>
+            </div>
+            <span class="mi-status mi-active">نشط ✅</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🔗 المصادر الأولية</span>
+          <span class="card-count" id="sources-count">—</span>
+        </div>
+        <div class="card-body">
+          <div class="sources-grid" id="sources-container">
+            <div style="color:var(--text-muted);font-size:11px;text-align:center;padding:12px;grid-column:1/-1;">جارٍ التحميل...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="last-update" id="last-update">آخر تحديث: جارٍ التحميل...</div>
+</div>
+
+<!-- Mizan Footer -->
+<div style="
+  background: linear-gradient(135deg, #0B1F3A, #0d2545);
+  border-top: 2px solid #B8882A;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="font-size:18px;font-weight:900;color:#B8882A;">⚖️ ميزان</span>
+    <div style="width:1px;height:20px;background:rgba(184,136,42,0.3);"></div>
+    <div>
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.8);">نظام الاستخبارات التنفيذية</div>
+      <div style="font-size:9px;color:rgba(184,136,42,0.7);">Executive Intelligence System</div>
+    </div>
+  </div>
+  <div style="text-align:center;">
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);">قاعدة بيانات الأزمة الإيرانية-الخليجية</div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.25);direction:ltr;">Iran-Gulf Crisis Database · Real-time Intelligence</div>
+  </div>
+  <div style="text-align:left;direction:ltr;">
+    <div style="font-size:10px;color:rgba(184,136,42,0.6);">war.tamkeenai.ae</div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.25);">© 2026 Mizan Intelligence</div>
+  </div>
+</div>
+
+<script>
+const SWA_ORIGIN = 'https://ambitious-cliff-0c8f0ec0f.4.azurestaticapps.net';
+const DB_PATH = window.location.hostname.includes('tamkeenai') || window.location.hostname.includes('ambitious-cliff') ? '/api/db' : SWA_ORIGIN + '/api/db';
+
+// ─── Canonical type mapping (normalize 35+ raw types → display types) ──────
+const TYPE_CANONICAL = {
+  // Strikes
+  strike: 'strike', airstrike: 'airstrike', attack: 'strike',
+  military_action: 'airstrike',
+  // Missiles / Drones
+  missile: 'missile', missile_attack: 'missile', missile_strike: 'missile',
+  missile_drone_attack: 'missile', drone: 'drone', drone_attack: 'drone',
+  // Retaliation
+  retaliation: 'retaliation',
+  // Explosions
+  explosion: 'explosion', impact: 'explosion',
+  // Interception / Defense
+  interception: 'interception',
+  // Diplomatic / Political
+  diplomatic: 'diplomatic', political: 'diplomatic', assessment: 'diplomatic',
+  // Threats / Alerts
+  threat: 'threat', alert: 'threat',
+  // Assassination / Leadership
+  assassination: 'assassination', leadership: 'assassination',
+  // Maritime / Naval
+  maritime: 'maritime', naval: 'maritime', blockade: 'maritime',
+  // Civilian
+  civilian_impact: 'civilian_impact', civilian_casualty: 'civilian_impact',
+  casualty: 'civilian_impact', civilian: 'civilian_impact', casualties: 'civilian_impact',
+  // Evacuation
+  evacuation: 'evacuation',
+  // Aviation
+  aviation: 'diplomatic',
+  // Military
+  military: 'military',
+  // Economic
+  economic: 'diplomatic',
+  // Uncertainty
+  uncertainty: 'uncertainty',
+  other: 'other',
+};
+
+const typeIcons = {
+  strike: '💥', airstrike: '💥', retaliation: '🚀', missile: '🚀',
+  drone: '🛸', explosion: '💢', diplomatic: '🏛️', political: '🏛️',
+  interception: '✅', uncertainty: '❓', threat: '⚠️', alert: '🚨',
+  assassination: '☠️', leadership: '☠️', maritime: '⚓', naval: '⚓',
+  blockade: '⛔', evacuation: '🚪', civilian_impact: '👥',
+  military: '🎖️', economic: '💰', other: '📌',
+};
+
+const typeLabels = {
+  strike: 'ضربة', airstrike: 'غارة جوية', retaliation: 'رد إيراني',
+  missile: 'صواريخ', drone: 'طائرات مسيّرة', explosion: 'انفجار',
+  diplomatic: 'دبلوماسي', political: 'سياسي', interception: 'اعتراض',
+  uncertainty: 'غير محسوم', threat: 'تهديد', alert: 'تنبيه',
+  assassination: 'اغتيال', leadership: 'قيادة', maritime: 'بحري',
+  naval: 'بحري', blockade: 'حصار', evacuation: 'إخلاء',
+  civilian_impact: 'مدنيون', military: 'عسكري',
+  economic: 'اقتصادي', other: 'أخرى',
+};
+
+// Filter groups (what tabs match)
+const FILTER_GROUPS = {
+  missile:  ['missile','missile_attack','missile_strike','missile_drone_attack','retaliation'],
+  airstrike:['airstrike','strike','attack','military_action'],
+  interception: ['interception'],
+  diplomatic:   ['diplomatic','political','assessment','economic','aviation'],
+  threat:       ['threat','alert','uncertainty'],
+  explosion:    ['explosion','impact'],
+  assassination:['assassination','leadership'],
+  maritime:     ['maritime','naval','blockade'],
+  civilian_impact:['civilian_impact','civilian_casualty','casualty','civilian','casualties'],
+};
+
+let allEvents = [];
+let currentFilter = 'all';
+let currentSearch = '';
+
+function formatTime(dt) {
+  const d = new Date(dt);
+  return d.toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dubai' });
+}
+
+function formatDate(dt) {
+  const d = new Date(dt);
+  return d.toLocaleDateString('ar-SA', { day:'numeric', month:'short', timeZone:'Asia/Dubai' });
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(DB_PATH + '?t=' + Date.now());
+    const db = await res.json();
+    renderTimeline(db.events, currentFilter, currentSearch);
+    renderStatements(db.statements);
+    renderCountriesStats(db);
+    const stmtCountEl = document.getElementById('statements-count');
+    if (stmtCountEl) stmtCountEl.textContent = (db.statements?.length || 0) + ' بيان';
+    const verifiedCount = db.events.filter(e=>e.verified).length;
+    document.getElementById('ind-events').textContent = db.events.length;
+    const indSubEl = document.getElementById('ind-events-sub');
+    if(indSubEl) indSubEl.textContent = `${verifiedCount} موثّق · ${db.events.length - verifiedCount} غير مؤكد`;
+    document.getElementById('events-count').textContent = db.events.length + ' حدث';
+    document.getElementById('last-update').textContent = 'آخر تحديث: ' + new Date(db.meta.lastUpdated).toLocaleString('ar-SA', { timeZone: 'Asia/Dubai' });
+    allEvents = db.events;
+
+    // ── Casualties ────────────────────────────────────────────────────────
+    let iranKilled=0, iranInjured=0, gulfKilled=0, gulfInjured=0, israelKilled=0, israelInjured=0;
+
+    if (db.casualties) {
+      iranKilled    = db.casualties.iran?.killed    || 0;
+      iranInjured   = db.casualties.iran?.injured   || 0;
+      gulfKilled    = db.casualties.gulf?.killed    || 0;
+      gulfInjured   = db.casualties.gulf?.injured   || 0;
+      israelKilled  = db.casualties.israel?.killed  || 0;
+      israelInjured = db.casualties.israel?.injured || 0;
+
+      // Show source + timestamp for each
+      function casSource(obj) {
+        if (!obj) return '';
+        const src = obj.source || '';
+        const ts  = obj.lastUpdated ? new Date(obj.lastUpdated).toLocaleString('ar-SA',{timeZone:'Asia/Dubai',hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}) : '';
+        return (src ? src.split('—')[0].trim() : '') + (ts ? ` · ${ts}` : '');
+      }
+      const srcEl = (id, obj) => { const el=document.getElementById(id); if(el) el.textContent = casSource(obj); };
+      srcEl('ind-iran-source',   db.casualties.iran);
+      srcEl('ind-gulf-source',   db.casualties.gulf);
+      srcEl('ind-israel-source', db.casualties.israel);
+    } else {
+      // Fallback: aggregate from events
+      const gulfTargets = ['UAE','Abu Dhabi','Dubai','Bahrain','Qatar','Kuwait','Saudi','الإمارات','البحرين','قطر'];
+      for (const e of db.events) {
+        const c = e.casualties || {};
+        const targets = JSON.stringify(e.targetLocations || e.target || '');
+        const isGulf  = gulfTargets.some(t => targets.includes(t));
+        if (isGulf) { gulfKilled += c.killed||0; gulfInjured += c.injured||0; }
+        else        { iranKilled += c.killed||0; iranInjured += c.injured||0; }
+      }
+    }
+
+    // Iran
+    const elK = document.getElementById('ind-killed');
+    const elI = document.getElementById('ind-injured');
+    if (elK) elK.textContent = iranKilled.toLocaleString();
+    if (elI) elI.textContent = (iranInjured||0).toLocaleString() + ' جريح';
+
+    // Gulf
+    const elGK   = document.getElementById('ind-gulf-killed');
+    const elGSub = document.getElementById('ind-gulf-sub');
+    if (elGK)   elGK.textContent   = gulfKilled  || '—';
+    if (elGSub) elGSub.textContent = gulfInjured ? gulfInjured + ' جريح' : 'لا إصابات مؤكدة';
+
+    // Israel
+    const elIK   = document.getElementById('ind-israel-killed');
+    const elISub = document.getElementById('ind-israel-sub');
+    if (elIK)   elIK.textContent   = israelKilled  || '—';
+    if (elISub) elISub.textContent = israelInjured ? israelInjured + ' جريح' : 'لا إصابات مؤكدة';
+
+    // ── Escalation gauge (0–100) ──────────────────────────────────────────
+    // Factors: total events, verified events, hormuz status, airspace closures
+    const totalEvents = db.events.length;
+    const verifiedCnt = db.events.filter(e=>e.verified).length;
+    const closedAirspace = Object.values(db.indicators?.airspace||{}).filter(a=>a.status==='closed').length;
+    const hormuzStatus = db.indicators?.hormuz?.status || 'open';
+    let escalation = Math.min(100, Math.round(
+      (totalEvents * 0.1) +        // more events = higher
+      (verifiedCnt * 0.05) +       // verified events count more
+      (closedAirspace * 5) +       // each closed airspace +5
+      (hormuzStatus === 'closed' ? 25 : hormuzStatus === 'restricted' ? 15 : hormuzStatus === 'warning' ? 10 : 0) +
+      (iranKilled > 1000 ? 20 : iranKilled > 100 ? 10 : 5)
+    ));
+    const needle = document.getElementById('escalation-needle');
+    const label  = document.getElementById('escalation-label');
+    if (needle) needle.style.right = (100 - escalation) + '%';
+    const escLabels = [[80,'🔴 خطر شديد'],[60,'🟠 تصعيد عالٍ'],[40,'🟡 متوسط'],[20,'🟢 محدود'],[0,'🔵 منخفض']];
+    const escLabel = escLabels.find(([th])=>escalation>=th)?.[1] || '🔵 منخفض';
+    if (label) { label.textContent = escLabel; label.style.fontWeight='700'; }
+
+    // Hormuz status
+    const hormuz = db.indicators?.hormuz;
+    if (hormuz) {
+      const el    = document.getElementById('ind-hormuz');
+      const elSub = document.getElementById('ind-hormuz-sub');
+      const statusMap = {
+        open:       { text: 'مفتوح ✅',   color: 'var(--green)' },
+        restricted: { text: 'مقيّد ⚠️',   color: '#e67e22' },
+        warning:    { text: 'تحذير 🚨',   color: 'var(--red)' },
+        closed:     { text: 'مغلق 🚫',    color: 'var(--red)' },
+      };
+      const st = statusMap[hormuz.status] || { text: hormuz.status, color: 'var(--text-muted)' };
+      if (el)    { el.textContent = st.text; el.style.color = st.color; }
+      if (elSub) elSub.textContent = hormuz.note || '';
+    }
+
+    // Update scenarios from DB
+    if (db.scenarios) renderScenarios(db.scenarios);
+
+    // Update sources from DB
+    if (db.sources) renderSources(db.sources);
+
+    // Update airspace from DB
+    if (db.indicators?.airspace) renderAirspace(db.indicators.airspace);
+
+    // Update oil price from DB
+    const oilPrices = db.indicators?.oilPrice || [];
+    if (oilPrices.length >= 1) {
+      const latest = oilPrices[oilPrices.length - 1];
+      const prev   = oilPrices.length >= 2 ? oilPrices[oilPrices.length - 2] : null;
+      const price  = latest.brent;
+      const el     = document.getElementById('ind-oil');
+      const chEl   = document.getElementById('ind-oil-change');
+      if (el) el.textContent = '$' + price.toFixed(1);
+      if (chEl && prev) {
+        const diff = (price - prev.brent).toFixed(2);
+        const pct  = ((price - prev.brent) / prev.brent * 100).toFixed(1);
+        const up   = diff >= 0;
+        chEl.textContent = (up ? '▲ +' : '▼ ') + diff + ' (' + (up ? '+' : '') + pct + '%)';
+        chEl.className = 'ind-change ' + (up ? 'up' : 'down');
+      }
+      // Color indicator border based on threshold
+      const indEl = el?.closest('.indicator');
+      if (indEl) {
+        indEl.style.borderColor = price >= 150 ? '#e74c3c' : price >= 120 ? '#f39c12' : '#2a2a2a';
+      }
+      renderOilChart(oilPrices);
+      // Update oil card header: % change from first entry to latest
+      const oilHeaderEl = document.getElementById('oil-header-change');
+      if (oilHeaderEl && oilPrices.length >= 2) {
+        const first = oilPrices[0].brent;
+        const now   = oilPrices[oilPrices.length - 1].brent;
+        const pctTot = ((now - first) / first * 100).toFixed(1);
+        const upTot  = now >= first;
+        oilHeaderEl.textContent = (upTot ? '▲ +' : '▼ ') + Math.abs(pctTot) + '% منذ الأزمة';
+        oilHeaderEl.style.color = upTot ? 'var(--red)' : 'var(--green)';
+      }
+    }
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+function canonicalType(raw) {
+  return TYPE_CANONICAL[raw] || raw || 'other';
+}
+
+function matchesFilter(e, filter) {
+  if (filter === 'all') return true;
+  const raw = e.type || 'other';
+  const group = FILTER_GROUPS[filter];
+  if (group) return group.includes(raw) || group.includes(canonicalType(raw));
+  return raw === filter || canonicalType(raw) === filter;
+}
+
+function matchesSearch(e, query) {
+  if (!query) return true;
+  const q = query.trim().toLowerCase();
+  const text = [e.actor||'', e.target||'', (e.targetLocations||[]).join(' '), e.description||''].join(' ').toLowerCase();
+  return text.includes(q);
+}
+
+function renderTimeline(events, filter = 'all', search = '') {
+  const container = document.getElementById('timeline-container');
+
+  let filtered = events.filter(e => matchesFilter(e, filter) && matchesSearch(e, search));
+  const sorted = [...filtered].reverse(); // newest first
+
+  if (!sorted.length) {
+    container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:30px;font-size:12px;">لا نتائج</div>`;
+    return;
+  }
+
+  // Group by date
+  let html = '';
+  let lastDate = '';
+
+  sorted.forEach(e => {
+    const dateStr = formatDate(e.datetime);
+    if (dateStr !== lastDate) {
+      html += `<div class="tl-date-divider">📅 ${dateStr}</div>`;
+      lastDate = dateStr;
+    }
+    const raw   = e.type || 'other';
+    const canon = canonicalType(raw);
+    const icon  = typeIcons[raw] || typeIcons[canon] || '📌';
+    const label = typeLabels[raw] || typeLabels[canon] || raw;
+
+    // Highlight search term
+    let desc = e.description || '';
+    if (search) {
+      const re = new RegExp(`(${search.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+      desc = desc.replace(re, '<mark style="background:rgba(243,156,18,0.3);border-radius:2px;">$1</mark>');
+    }
+
+    html += `
+    <div class="tl-item" data-type="${raw}">
+      <div class="tl-dot ${raw} ${canon}">${icon}</div>
+      <div class="tl-body">
+        <div class="tl-time">${formatTime(e.datetime)} | ${label}</div>
+        <div class="tl-title">${e.actor || '—'} → ${e.target || (e.targetLocations||[]).join('، ') || '—'}</div>
+        <div class="tl-desc">${desc}</div>
+        ${e.casualties?.killed ? `<div class="tl-casualties">☠️ ${e.casualties.killed} قتيل${e.casualties.injured ? ' · 🩹 ' + e.casualties.injured + ' جريح' : ''}${e.casualties.note ? ' — ' + e.casualties.note : ''}</div>` : ''}
+        <span class="tl-verified ${e.verified ? 'yes' : 'no'}">${e.verified ? '✓ موثّق' : '⚠ غير مؤكد'}</span>
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function renderStatements(statements) {
+  const container = document.getElementById('statements-container');
+  const actorClass = (actor) => {
+    if (actor.includes('Iran') || actor.includes('IRGC')) return 'iran';
+    if (actor.includes('GCC') || actor.includes('UAE') || actor.includes('Saudi') || actor.includes('Qatar')) return 'gcc';
+    if (actor.includes('Houthi')) return 'houthi';
+    return 'intl';
+  };
+
+  // Sort newest first
+  const sorted = [...statements].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+
+  container.innerHTML = sorted.map(s => `
+    <div class="stmt-item ${actorClass(s.actor)}">
+      <div class="stmt-header">
+        <span class="stmt-actor">${s.actor}</span>
+        <span class="stmt-time">${formatDate(s.datetime)} ${formatTime(s.datetime)}</span>
+      </div>
+      <div class="stmt-text">"${s.text}"</div>
+    </div>
+  `).join('');
+}
+
+function renderScenarios(scenarios) {
+  const container = document.getElementById('scenarios-container');
+  if (!container || !scenarios?.length) return;
+
+  // Sort by probability descending
+  const sorted = [...scenarios].sort((a, b) => b.probability - a.probability);
+
+  container.innerHTML = sorted.map(s => {
+    const prob = s.probability;
+    const cls  = prob >= 50 ? 'sc-high' : prob >= 25 ? 'sc-med' : 'sc-low';
+    const trendIcon = s.trend === 'up' ? '▲' : s.trend === 'down' ? '▼' : '→';
+    const trendColor = s.trend === 'up' ? 'var(--red)' : s.trend === 'down' ? 'var(--green)' : 'var(--text-muted)';
+    const updated = s.lastUpdated ? formatDate(s.lastUpdated) : '';
+
+    return `
+      <div class="scenario">
+        <div class="sc-header">
+          <span class="sc-title">${s.icon || '🔮'} ${s.title}</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:10px;color:${trendColor};font-weight:700;">${trendIcon}</span>
+            <span class="sc-prob ${cls}">${prob}%</span>
+          </div>
+        </div>
+        <div class="sc-desc">${s.description}</div>
+        ${updated ? `<div style="font-size:9px;color:var(--text-muted);margin-top:3px;">آخر تحديث: ${updated}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+const catLabels = {
+  official:     { ar: 'رسمية 🏛️',        color: 'var(--blue)' },
+  intelligence: { ar: 'استخباراتية 🔍',   color: 'var(--gold)' },
+  media:        { ar: 'إعلامية 📰',        color: 'var(--green)' },
+  realtime:     { ar: 'لحظية 📡',          color: 'var(--red)' },
+};
+
+function renderSources(sources) {
+  const container = document.getElementById('sources-container');
+  const countEl   = document.getElementById('sources-count');
+  if (!container || !sources) return;
+
+  let total = 0;
+  let html  = '';
+
+  // Sort categories: realtime → intelligence → media → official
+  const order = ['realtime', 'intelligence', 'media', 'official'];
+  const cats  = [...order, ...Object.keys(sources).filter(k => !order.includes(k))];
+
+  for (const cat of cats) {
+    const items = sources[cat];
+    if (!items?.length) continue;
+    const { ar, color } = catLabels[cat] || { ar: cat, color: 'var(--text-muted)' };
+
+    html += `<div style="grid-column:1/-1;font-size:10px;font-weight:700;color:${color};
+      padding:4px 0 2px;border-bottom:1px solid var(--border);margin-bottom:2px;">${ar}</div>`;
+
+    for (const s of items) {
+      total++;
+      const pClass = s.priority === 1 ? 'sp-1' : 'sp-2';
+      const pLabel = s.priority === 1 ? 'أولوية 1' : 'أولوية 2';
+      const shortName = s.name.replace(/\s*[-—–].*/, '').trim(); // trim after dash
+      html += `
+        <a class="src-item" href="${s.url}" target="_blank" rel="noopener">
+          <div class="src-name">${shortName}</div>
+          <div class="src-type">${s.description || s.type || ''}</div>
+          <span class="src-priority ${pClass}">${pLabel}</span>
+        </a>`;
+    }
+  }
+
+  container.innerHTML = html || '<div style="color:var(--text-muted);grid-column:1/-1;text-align:center;">لا مصادر</div>';
+  if (countEl) countEl.textContent = total + ' مصدر';
+}
+
+function renderAirspace(airspace) {
+  const table = document.getElementById('airspace-table');
+  if (!table || !airspace || typeof airspace !== 'object') return;
+
+  const countryMap = {
+    'UAE':          { flag: '🇦🇪', name: 'الإمارات' },
+    'Bahrain':      { flag: '🇧🇭', name: 'البحرين' },
+    'Qatar':        { flag: '🇶🇦', name: 'قطر' },
+    'Iran':         { flag: '🇮🇷', name: 'إيران' },
+    'Iraq':         { flag: '🇮🇶', name: 'العراق' },
+    'Kuwait':       { flag: '🇰🇼', name: 'الكويت' },
+    'Saudi Arabia': { flag: '🇸🇦', name: 'السعودية' },
+    'Jordan':       { flag: '🇯🇴', name: 'الأردن' },
+    'Oman':         { flag: '🇴🇲', name: 'عُمان' },
+    'Yemen':        { flag: '🇾🇪', name: 'اليمن' },
+  };
+
+  const statusMap = {
+    open:       { cls: 's-open',       label: 'مفتوح ✈️' },
+    restricted: { cls: 's-restricted', label: 'مقيّد ⚠️' },
+    closed:     { cls: 's-closed',     label: 'مغلق 🚫' },
+    warning:    { cls: 's-restricted', label: 'تحذير ⚠️' },
+  };
+
+  const rows = Object.entries(airspace).map(([key, val]) => {
+    const country = countryMap[key] || { flag: '🌐', name: key };
+    const st      = statusMap[val.status] || { cls: 's-open', label: val.status };
+    const since   = val.since ? formatDate(val.since) : '';
+    const note    = val.note ? `<span style="font-size:9px;color:var(--text-muted);display:block;">${val.note}</span>` : '';
+    return `<tr>
+      <td>${country.flag} ${country.name}${note}</td>
+      <td><span class="status-pill ${st.cls}">${st.label}</span></td>
+      <td style="font-size:9px;color:var(--text-muted);direction:ltr;">${since}</td>
+    </tr>`;
+  }).join('');
+
+  table.innerHTML = rows || '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);">لا بيانات</td></tr>';
+}
+
+function renderOilChart(oilPrices) {
+  const container = document.getElementById('oil-chart');
+  if (!container || !oilPrices.length) return;
+
+  // Show last 12 points; deduplicate consecutive identical prices
+  const deduped = [];
+  for (const o of oilPrices.slice(-24)) {
+    const prev = deduped[deduped.length - 1];
+    if (!prev || prev.brent !== o.brent || deduped.length < 3) deduped.push(o);
+  }
+  const recent = deduped.slice(-12);
+
+  const max = Math.max(...recent.map(o => o.brent));
+  const min = Math.min(...recent.map(o => o.brent));
+  const range = max - min || 2; // avoid division by zero
+
+  container.innerHTML = recent.map((o) => {
+    const pct   = Math.round(((o.brent - min) / range) * 68 + 10); // 10–78%
+    const color = o.brent >= 150 ? '#e74c3c' : o.brent >= 120 ? '#f39c12' : o.brent >= 100 ? '#e67e22' : '#27ae60';
+    const label = new Date(o.datetime).toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dubai' });
+    return `
+      <div class="oil-bar-wrap" title="$${o.brent} — ${label}">
+        <div class="oil-val">$${o.brent.toFixed(1)}</div>
+        <div class="oil-bar" style="height:${pct}%;background:linear-gradient(to top,${color},${color}99);"></div>
+        <div class="oil-label">${label}</div>
+      </div>`;
+  }).join('');
+
+  // If all prices are the same, show a flat line note
+  if (range < 0.5) {
+    container.insertAdjacentHTML('beforeend',
+      `<div style="position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:9px;color:var(--text-muted);">السعر ثابت — لا تغيير</div>`);
+    container.style.position = 'relative';
+  }
+}
+
+function filterEvents(type, btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = type;
+  renderTimeline(allEvents, currentFilter, currentSearch);
+  // Update count badge
+  const cnt = type === 'all'
+    ? allEvents.length
+    : allEvents.filter(e => matchesFilter(e, type)).length;
+  const countEl = document.getElementById('events-count');
+  if (countEl) countEl.textContent = cnt + ' حدث';
+}
+
+function onSearchTimeline() {
+  const inp = document.getElementById('timeline-search');
+  currentSearch = inp ? inp.value : '';
+  renderTimeline(allEvents, currentFilter, currentSearch);
+}
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('ar-SA', { timeZone:'Asia/Dubai', hour12: false });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ─── Live Refresh System ─────────────────────────────────────────────────────
+const REFRESH_INTERVAL = 15000; // 15 seconds
+let lastDataRefresh = Date.now();
+let refreshTimer = null;
+
+function startRefreshBar() {
+  const bar = document.getElementById('refresh-bar');
+  if (!bar) return;
+  let start = Date.now();
+  bar.style.transform = 'scaleX(1)';
+
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(() => {
+    const elapsed = Date.now() - start;
+    const pct = Math.min(elapsed / REFRESH_INTERVAL, 1);
+    bar.style.transform = `scaleX(${1 - pct})`;
+    if (pct >= 1) {
+      clearInterval(refreshTimer);
+      bar.style.transform = 'scaleX(0)';
+    }
+  }, 200);
+}
+
+function flashContainers() {
+  ['timeline-container', 'statements-container'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('data-flash');
+      void el.offsetWidth; // reflow
+      el.classList.add('data-flash');
+    }
+  });
+}
+
+function updateLastUpdatedAgo() {
+  const el = document.getElementById('last-updated-ago');
+  if (!el) return;
+  const secs = Math.round((Date.now() - lastDataRefresh) / 1000);
+  if (secs < 5) el.textContent = 'الآن';
+  else if (secs < 60) el.textContent = `منذ ${secs}ث`;
+  else el.textContent = `منذ ${Math.floor(secs/60)}د`;
+}
+setInterval(updateLastUpdatedAgo, 1000);
+
+// Wrap original loadData to add live effects
+const _origLoadData = loadData;
+// ── Countries Stats ───────────────────────────────────────────────────────
+function renderCountriesStats(db) {
+  const tbody = document.getElementById('countries-table-body');
+  if (!tbody) return;
+
+  const airspace = db?.indicators?.airspace || {};
+  const cas = db?.casualties?.gulf?.breakdown || {};
+  const now = new Date().toLocaleString('ar-SA', { timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit' });
+  const upEl = document.getElementById('countries-last-update');
+  if (upEl) upEl.textContent = now;
+
+  // Update KPIs
+  const totalKilled = (db.casualties?.iran?.killed||0) + (db.casualties?.gulf?.killed||0) + (db.casualties?.israel?.killed||0);
+  const closedCount = Object.values(airspace).filter(a => a.status === 'closed').length;
+  const kpiKill = document.getElementById('kpi-casualties');
+  const kpiAir = document.getElementById('kpi-airspace');
+  if (kpiKill) kpiKill.textContent = totalKilled > 0 ? totalKilled + '+' : '520+';
+  if (kpiAir) kpiAir.textContent = closedCount || 6;
+
+  // Country data
+  const countries = [
+    {
+      flag: '🇮🇷', name: 'إيران', role: 'مُضرَب (هجوم أمريكي-إسرائيلي)',
+      strikes: '500+ هدف', killed: db.casualties?.iran?.killed || 201,
+      injured: db.casualties?.iran?.injured || 747,
+      airCode: 'Iran', targets: 'طهران، أصفهان، قم، كرج، بوشهر',
+      color: '#e74c3c', badge: 'ضُرب'
+    },
+    {
+      flag: '🇦🇪', name: 'الإمارات', role: 'مُستهدف — ردّ إيراني',
+      strikes: '708 قذيفة', killed: cas.UAE?.killed || 3,
+      injured: cas.UAE?.injured || 58,
+      airCode: 'UAE', targets: 'جبل علي، برج العرب، مطار دبي، أبوظبي',
+      color: '#e74c3c', badge: 'مستهدف'
+    },
+    {
+      flag: '🇮🇱', name: 'إسرائيل', role: 'مُضرِب + مُستهدف',
+      strikes: '200+ طائرة شنّت هجوماً', killed: db.casualties?.israel?.killed || 8,
+      injured: db.casualties?.israel?.injured || 60,
+      airCode: null, targets: 'بيت شيمش، تل أبيب، بني براك',
+      color: '#e74c3c', badge: 'هاجم وأُهوجم'
+    },
+    {
+      flag: '🇧🇭', name: 'البحرين', role: 'مُستهدف — قاعدة الأسطول الخامس',
+      strikes: '45+ صاروخ', killed: cas.Bahrain?.killed || 0,
+      injured: cas.Bahrain?.injured || 5,
+      airCode: 'Bahrain', targets: 'الأسطول الخامس الأمريكي، المنامة، المحرق',
+      color: '#e67e22', badge: 'مستهدف'
+    },
+    {
+      flag: '🇶🇦', name: 'قطر', role: 'مُستهدف — قاعدة العديد',
+      strikes: '65+ صاروخ', killed: cas.Qatar?.killed || 8,
+      injured: cas.Qatar?.injured || 15,
+      airCode: 'Qatar', targets: 'قاعدة العديد، الدوحة، المنطقة الصناعية',
+      color: '#e67e22', badge: 'مستهدف'
+    },
+    {
+      flag: '🇰🇼', name: 'الكويت', role: 'مُستهدف — قاعدة علي السالم',
+      strikes: '30+ قذيفة', killed: cas.Kuwait?.killed || 0,
+      injured: cas.Kuwait?.injured || 12,
+      airCode: 'Kuwait', targets: 'قاعدة علي السالم، مطار الكويت',
+      color: '#e67e22', badge: 'مستهدف'
+    },
+    {
+      flag: '🇸🇦', name: 'السعودية', role: 'مُستهدف — اعتراض ناجح',
+      strikes: '20+ صاروخ', killed: cas.Saudi?.killed || 0,
+      injured: cas.Saudi?.injured || 0,
+      airCode: 'Saudi Arabia', targets: 'الرياض، المنطقة الشرقية',
+      color: '#f39c12', badge: 'اعتُرض'
+    },
+    {
+      flag: '🇯🇴', name: 'الأردن', role: 'مُستهدف + اعتراض نشط',
+      strikes: '13+ صاروخ', killed: 0, injured: 0,
+      airCode: 'Jordan', targets: 'قواعد أمريكية، اعتراض 13 صاروخاً',
+      color: '#f39c12', badge: 'اعتُرض'
+    },
+    {
+      flag: '🇮🇶', name: 'العراق', role: 'مُستهدف — ميليشيات + CENTCOM',
+      strikes: '10+ هجوم', killed: 2, injured: 3,
+      airCode: 'Iraq', targets: 'أربيل، كتائب حزب الله (ضربة أمريكية)',
+      color: '#f39c12', badge: 'مستهدف'
+    },
+    {
+      flag: '🇨🇾', name: 'قبرص', role: 'مُستهدف — قواعد بريطانية',
+      strikes: '2 صاروخ', killed: 0, injured: 0,
+      airCode: null, targets: 'قواعد أكروتيري وديكيليا البريطانية',
+      color: '#888', badge: 'غير مؤكد'
+    },
+    {
+      flag: '🇴🇲', name: 'عُمان', role: 'ضربة جانبية — مسيّرات',
+      strikes: '1 مسيّرة', killed: 0, injured: 5,
+      airCode: 'Oman', targets: 'ميناء الدقم، ناقلة نفط قرب خصب',
+      color: '#888', badge: 'ضربة جانبية'
+    }
+  ];
+
+  function airStatus(code) {
+    if (!code) return { label: '—', color: '#555', bg: '#1a1a1a' };
+    const s = airspace[code]?.status || 'open';
+    const map = {
+      closed:     { label: '🔴 مغلق',   color: '#e74c3c', bg: 'rgba(231,76,60,0.1)' },
+      restricted: { label: '🟡 مقيّد',  color: '#f39c12', bg: 'rgba(243,156,18,0.1)' },
+      warning:    { label: '🟠 تحذير',  color: '#e67e22', bg: 'rgba(230,126,34,0.1)' },
+      open:       { label: '🟢 مفتوح',  color: '#27ae60', bg: 'rgba(39,174,96,0.1)' }
+    };
+    return map[s] || map.open;
+  }
+
+  tbody.innerHTML = countries.map((c, i) => {
+    const air = airStatus(c.airCode);
+    const rowBg = i % 2 === 0 ? '#161616' : '#131313';
+    const badgeColor = c.badge === 'اعتُرض' ? '#27ae60' : c.badge === 'هاجم وأُهوجم' ? '#9b59b6' : c.badge === 'ضربة جانبية' ? '#888' : '#e74c3c';
+    return `
+      <tr style="border-bottom:1px solid #222;background:${rowBg};">
+        <td style="padding:10px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;">${c.flag}</span>
+            <div>
+              <div style="font-weight:700;color:#e8e8e8;font-size:13px;">${c.name}</div>
+              <div style="font-size:10px;color:#888;">${c.role}</div>
+            </div>
+            <span style="margin-right:auto;background:${badgeColor}22;color:${badgeColor};font-size:9px;padding:2px 7px;border-radius:10px;border:1px solid ${badgeColor}44;">${c.badge}</span>
+          </div>
+        </td>
+        <td style="padding:10px 14px;text-align:center;">
+          <div style="font-size:14px;font-weight:800;color:${c.color};">${c.strikes}</div>
+        </td>
+        <td style="padding:10px 14px;text-align:center;">
+          <div style="font-size:16px;font-weight:900;color:${c.killed > 0 ? '#e74c3c' : '#555'};">${c.killed}</div>
+        </td>
+        <td style="padding:10px 14px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:${c.injured > 0 ? '#e67e22' : '#555'};">${c.injured}</div>
+        </td>
+        <td style="padding:10px 14px;text-align:center;">
+          <span style="background:${air.bg};color:${air.color};font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;">${air.label}</span>
+        </td>
+        <td style="padding:10px 14px;color:#aaa;font-size:11px;max-width:200px;">${c.targets}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function loadDataLive() {
+  startRefreshBar();
+  await _origLoadData();
+  lastDataRefresh = Date.now();
+  flashContainers();
+  updateLastUpdatedAgo();
+}
+
+// Load
+loadDataLive();
+setInterval(loadDataLive, REFRESH_INTERVAL);
+
+// ─── Presence / Live Visitors ───────────────────────────────────────────────
+const PRESENCE_API = '/api/presence';
+const TG_GROUP = '-1003887044302';
+const TG_THREAD = '1201';
+
+// Generate or reuse session ID (persists per browser tab session)
+function getSessionId() {
+  let id = sessionStorage.getItem('war_session');
+  if (!id) {
+    id = 'ws_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now().toString(36);
+    sessionStorage.setItem('war_session', id);
+  }
+  return id;
+}
+
+let presenceStats = { active: 0, total: 0 };
+
+async function heartbeat() {
+  try {
+    const res = await fetch(PRESENCE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: getSessionId() }),
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    presenceStats = data;
+    updateVisitorUI(data.active, data.total);
+    // Telegram notification is handled server-side in /api/presence
+  } catch (e) { /* silent */ }
+}
+
+async function fetchPresence() {
+  try {
+    const res = await fetch(PRESENCE_API);
+    if (!res.ok) return;
+    const data = await res.json();
+    presenceStats = data;
+    updateVisitorUI(data.active, data.total);
+  } catch (e) { /* silent */ }
+}
+
+function updateVisitorUI(active, total) {
+  const el = document.getElementById('live-count');
+  if (el) el.textContent = active;
+  // Update topbar title
+  document.title = `⚖️ ميزان — الأزمة الإيرانية (${active} مباشر)`;
+}
+
+function showVisitorStats() {
+  const { active, total } = presenceStats;
+  const msg = `📊 إحصائيات الموقع\n\n👁 المتصفحون الآن: ${active}\n📈 إجمالي الزيارات: ${total}`;
+  alert(msg);
+}
+
+
+
+// Start: heartbeat immediately + every 30s (presence POST)
+heartbeat();
+setInterval(heartbeat, 30000);
+// Poll presence every 15s (GET only — no double counting)
+setInterval(fetchPresence, 15000);
+</script>
+</body>
+</html>
